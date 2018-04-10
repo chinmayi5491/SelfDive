@@ -1,10 +1,12 @@
 package com.app.selfdive;
 
+import java.io.Serializable;
+
 /**
  * Created by Stephen on 4/9/2018.
  */
 
-public class DisplaySize {
+public class DisplaySize implements Serializable{
 
     private String uri;
 

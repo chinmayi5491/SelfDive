@@ -1,5 +1,6 @@
 package com.app.selfdive;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  },
  */
 
-public class Image {
+public class Image implements Serializable{
     private String id;
     private String title;
     private ArrayList<DisplaySize> display_sizes;

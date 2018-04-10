@@ -1,5 +1,8 @@
 package com.app.selfdive;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -23,7 +26,16 @@ import okhttp3.Response;
 
 public class ImageRetrievalService {
 
-    OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
+    private ImageResult imageResult;
+    private Activity activity;
+
+    public static final String TOKEN_IMAGE_RESULT_BUNDLE_KEY = "tokenImageResultBundleKey";
+    public static final String TOKEN_IMAGE_RESULT_INTENT_KEY = "tokenImageResultIntentKey";
+
+    public ImageRetrievalService(Activity activity) {
+        this.activity = activity;
+    }
 
     protected void getImages(String keyword) {
 
@@ -51,7 +63,18 @@ public class ImageRetrievalService {
 
     protected void parseImageResponse(String json){
         Gson gson = new Gson();
-        ImageResult imageResult = gson.fromJson(json, ImageResult.class);
+        imageResult = gson.fromJson(json, ImageResult.class);
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(activity, ImageDisplay.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(TOKEN_IMAGE_RESULT_BUNDLE_KEY, imageResult);
+                intent.putExtra(TOKEN_IMAGE_RESULT_INTENT_KEY, bundle);
+                activity.startActivity(intent);
+            }
+        });
 
         Log.d("ImageResult", "Size of images is: " + imageResult.getImages().size());
 
