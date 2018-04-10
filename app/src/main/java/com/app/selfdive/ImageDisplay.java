@@ -3,6 +3,9 @@ package com.app.selfdive;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,7 +20,6 @@ public class ImageDisplay extends AppCompatActivity {
 
     private ImageView imageView;
     private ArrayList<String> imageUrls;
-    private Button buttonClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +66,26 @@ public class ImageDisplay extends AppCompatActivity {
 
         });
 
-        buttonClear = findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageUrls = null;
-                Intent intent = new Intent(ImageDisplay.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                ImageDisplay.this.startActivity(intent);
+    }
 
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.clearPhotos) {
+            imageUrls = null;
+            Intent intent = new Intent(ImageDisplay.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ImageDisplay.this.startActivity(intent);
+
+            return true;
+        }
+
+        return false;
     }
 }

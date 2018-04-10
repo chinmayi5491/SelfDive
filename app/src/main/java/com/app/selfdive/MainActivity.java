@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected boolean isSearchFieldEmpty(String search) {
-        return search == "" || search == null;
+        return "".equals(search) || search == null;
     }
 
     public ImageResult getImageResult() {
