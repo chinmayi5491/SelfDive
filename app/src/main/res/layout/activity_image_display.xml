@@ -9,9 +9,18 @@
     <ImageView
         android:id="@+id/gettyImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:contentDescription="GettyImage"
         app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gettyImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:text="Clear" />
 
 
 </RelativeLayout>

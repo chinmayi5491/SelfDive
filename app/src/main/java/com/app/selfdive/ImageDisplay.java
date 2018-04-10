@@ -3,6 +3,8 @@ package com.app.selfdive;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,7 +16,8 @@ import java.util.LinkedList;
 public class ImageDisplay extends AppCompatActivity {
 
     private ImageView imageView;
-    private LinkedList<String> imageUrls;
+    private ArrayList<String> imageUrls;
+    private Button buttonClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,7 @@ public class ImageDisplay extends AppCompatActivity {
 
         String url = imageResult.getImages().get(0).getDisplay_sizes().get(0).getUri();
 
-//        imageUrls = new ArrayList<>();
-        imageUrls = new LinkedList<>();
+        imageUrls = new ArrayList<>();
         for(Image image : imageResult.getImages()) {
             for(DisplaySize displaySize : image.getDisplay_sizes()){
                 imageUrls.add(displaySize.getUri());
@@ -41,25 +43,37 @@ public class ImageDisplay extends AppCompatActivity {
             int index = 0;
             public void onSwipeRight() {
                 if(index != 0) {
-                    Picasso.with(ImageDisplay.this).load(imageUrls.get(index - 1)).into(imageView);
+                    index--;
+                    Picasso.with(ImageDisplay.this).load(imageUrls.get(index)).into(imageView);
                 } else {
                     index = imageUrls.size()-1;
                     Picasso.with(ImageDisplay.this).load(imageUrls.get(index)).into(imageView);
                 }
-                index--;
             }
 
             public void onSwipeLeft() {
                 if(index != imageUrls.size()-1){
-                    Picasso.with(ImageDisplay.this).load(imageUrls.get(index + 1)).into(imageView);
+                    index++;
+                    Picasso.with(ImageDisplay.this).load(imageUrls.get(index)).into(imageView);
                 } else {
                     index = 0;
                     Picasso.with(ImageDisplay.this).load(imageUrls.get(index)).into(imageView);
                 }
-                index++;
 
             }
 
+        });
+
+        buttonClear = findViewById(R.id.buttonClear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageUrls = null;
+                Intent intent = new Intent(ImageDisplay.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ImageDisplay.this.startActivity(intent);
+
+            }
         });
     }
 }
